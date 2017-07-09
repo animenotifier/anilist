@@ -1,6 +1,7 @@
 package anilist
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -9,6 +10,10 @@ import (
 
 // GetAnimeList ...
 func GetAnimeList(userName string) (*AnimeList, error) {
+	if userName == "" {
+		return nil, errors.New("Anilist username is empty")
+	}
+
 	request := gorequest.New().Get("https://anilist.co/api/user/" + userName + "/animelist?access_token=" + AccessToken)
 
 	animeList := &AnimeList{}
