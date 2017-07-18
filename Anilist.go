@@ -29,3 +29,25 @@ func GetAnimeList(userName string) (*AnimeList, error) {
 
 	return animeList, nil
 }
+
+// GetUser ...
+func GetUser(userName string) (*User, error) {
+	if userName == "" {
+		return nil, errors.New("Anilist username is empty")
+	}
+
+	request := gorequest.New().Get("https://anilist.co/api/user/" + userName + "?access_token=" + AccessToken)
+
+	user := &User{}
+	resp, _, errs := request.EndStruct(user)
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Invalid status code: %d", resp.StatusCode)
+	}
+
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+
+	return user, nil
+}
