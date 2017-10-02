@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAuthorize(t *testing.T) {
+func TestAnimeList(t *testing.T) {
 	APIKeyID = "akyoto-nrihb"
 	APIKeySecret = "fTx1y7CwCVyQxlK54m8a8fbsEu44"
 
@@ -14,14 +14,10 @@ func TestAuthorize(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, AccessToken)
-}
 
-func TestAuthorizeFail(t *testing.T) {
-	APIKeyID = "must-fail"
-	APIKeySecret = "intentionally-wrong-secret"
+	animeList, err := GetAnimeList("Akyoto")
 
-	err := Authorize()
-
-	assert.Error(t, err)
-	assert.Empty(t, AccessToken)
+	assert.NoError(t, err)
+	assert.NotNil(t, animeList)
+	assert.NotEmpty(t, animeList.Lists.Completed)
 }

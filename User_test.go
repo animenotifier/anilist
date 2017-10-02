@@ -11,6 +11,7 @@ func TestUser(t *testing.T) {
 	APIKeySecret = "fTx1y7CwCVyQxlK54m8a8fbsEu44"
 
 	err := Authorize()
+
 	assert.NoError(t, err)
 	assert.NotEmpty(t, AccessToken)
 
