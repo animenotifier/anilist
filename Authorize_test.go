@@ -1,7 +1,6 @@
 package anilist
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -15,6 +14,4 @@ func TestAuthorize(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, AccessToken)
-
-	fmt.Println(AccessToken)
 }
