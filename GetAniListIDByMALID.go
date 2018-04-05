@@ -1,34 +1,30 @@
 package anilist
 
 import (
-	"fmt"
-	"net/http"
 	"strconv"
 )
-
-const malIDQuery = `query ($malId: Int, $type: MediaType) {
-	Media(idMal: $malId, type: $type) {
-		id
-	}
-}`
-
-type malIDQueryBody struct {
-	Query     string              `json:"query"`
-	Variables malIDQueryVariables `json:"variables"`
-}
-
-type malIDQueryVariables struct {
-	MALID int    `json:"malId"`
-	Type  string `json:"type"`
-}
 
 // GetAniListIDByMALID ...
 func GetAniListIDByMALID(malID string) (string, error) {
 	malIDInteger, _ := strconv.Atoi(malID)
 
-	body := malIDQueryBody{
-		Query: malIDQuery,
-		Variables: malIDQueryVariables{
+	type Variables struct {
+		MALID int    `json:"malId"`
+		Type  string `json:"type"`
+	}
+
+	body := struct {
+		Query     string    `json:"query"`
+		Variables Variables `json:"variables"`
+	}{
+		Query: `
+			query ($malId: Int, $type: MediaType) {
+				Media(idMal: $malId, type: $type) {
+					id
+				}
+			}
+		`,
+		Variables: Variables{
 			MALID: malIDInteger,
 			Type:  "ANIME",
 		},
@@ -43,14 +39,10 @@ func GetAniListIDByMALID(malID string) (string, error) {
 		} `json:"data"`
 	})
 
-	response, err := Query(body).EndStruct(idResponse)
+	err := Query(body, idResponse)
 
 	if err != nil {
 		return "", err
-	}
-
-	if response.StatusCode() != http.StatusOK {
-		return "", fmt.Errorf("Status code: %d", response.StatusCode())
 	}
 
 	return strconv.Itoa(idResponse.Data.Media.ID), nil

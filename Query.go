@@ -1,6 +1,11 @@
 package anilist
 
-import "github.com/aerogo/http/client"
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/aerogo/http/client"
+)
 
 var headers = client.Headers{
 	"User-Agent":   "notify.moe testing",
@@ -8,6 +13,16 @@ var headers = client.Headers{
 }
 
 // Query queries the AniList GraphQL API.
-func Query(body interface{}) *client.Client {
-	return client.Post("https://graphql.anilist.co").Headers(headers).BodyJSON(body)
+func Query(body interface{}, target interface{}) error {
+	response, err := client.Post("https://graphql.anilist.co").Headers(headers).BodyJSON(body).EndStruct(target)
+
+	if err != nil {
+		return err
+	}
+
+	if response.StatusCode() != http.StatusOK {
+		return fmt.Errorf("Status: %d", response.StatusCode())
+	}
+
+	return nil
 }
