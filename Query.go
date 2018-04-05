@@ -21,7 +21,7 @@ func Query(body interface{}, target interface{}) error {
 	}
 
 	if response.StatusCode() != http.StatusOK {
-		return fmt.Errorf("Status: %d", response.StatusCode())
+		return fmt.Errorf("Status: %d\n%s", response.StatusCode(), response.String())
 	}
 
 	return nil

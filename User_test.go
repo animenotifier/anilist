@@ -6,18 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUser(t *testing.T) {
-	APIKeyID = "akyoto-nrihb"
-	APIKeySecret = "fTx1y7CwCVyQxlK54m8a8fbsEu44"
-
-	err := Authorize()
-
+func TestGetUserByName(t *testing.T) {
+	user, err := GetUserByName("Akyoto")
 	assert.NoError(t, err)
-	assert.NotEmpty(t, AccessToken)
-
-	user, err := GetUser("Akyoto")
-
-	assert.NoError(t, err)
-	assert.NotNil(t, user)
-	assert.NotEmpty(t, user.ImageURLLarge)
+	assert.Equal(t, 12647, user.ID)
 }

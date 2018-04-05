@@ -1,13 +1,7 @@
 package anilist
 
-import (
-	"strconv"
-)
-
 // GetAniListIDByMALID ...
-func GetAniListIDByMALID(malID string) (string, error) {
-	malIDNumber, _ := strconv.Atoi(malID)
-
+func GetAniListIDByMALID(malID int) (int, error) {
 	type Variables struct {
 		MALID int    `json:"malId"`
 		Type  string `json:"type"`
@@ -25,13 +19,13 @@ func GetAniListIDByMALID(malID string) (string, error) {
 			}
 		`,
 		Variables: Variables{
-			MALID: malIDNumber,
+			MALID: malID,
 			Type:  "ANIME",
 		},
 	}
 
 	// Query response
-	idResponse := new(struct {
+	response := new(struct {
 		Data struct {
 			Media struct {
 				ID int `json:"id"`
@@ -39,11 +33,11 @@ func GetAniListIDByMALID(malID string) (string, error) {
 		} `json:"data"`
 	})
 
-	err := Query(body, idResponse)
+	err := Query(body, response)
 
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
-	return strconv.Itoa(idResponse.Data.Media.ID), nil
+	return response.Data.Media.ID, nil
 }
