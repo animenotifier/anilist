@@ -8,8 +8,11 @@ import (
 )
 
 func TestGetAnimeList(t *testing.T) {
-	animeList, err := anilist.GetAnimeList("Akyoto")
+	user, err := anilist.GetUser("Akyoto")
+	assert.NoError(t, err)
+	assert.NotNil(t, user)
 
+	animeList, err := anilist.GetAnimeList(user.ID)
 	assert.NoError(t, err)
 	assert.NotNil(t, animeList)
 
