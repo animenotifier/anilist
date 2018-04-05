@@ -8,7 +8,7 @@ import (
 )
 
 var headers = client.Headers{
-	"User-Agent":   "notify.moe testing",
+	"User-Agent":   "Anime Notifier",
 	"Content-Type": "application/json",
 }
 
