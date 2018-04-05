@@ -6,7 +6,7 @@ import (
 
 // GetAniListIDByMALID ...
 func GetAniListIDByMALID(malID string) (string, error) {
-	malIDInteger, _ := strconv.Atoi(malID)
+	malIDNumber, _ := strconv.Atoi(malID)
 
 	type Variables struct {
 		MALID int    `json:"malId"`
@@ -25,7 +25,7 @@ func GetAniListIDByMALID(malID string) (string, error) {
 			}
 		`,
 		Variables: Variables{
-			MALID: malIDInteger,
+			MALID: malIDNumber,
 			Type:  "ANIME",
 		},
 	}
