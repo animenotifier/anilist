@@ -1,8 +1,6 @@
 package anilist_test
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/animenotifier/anilist"
@@ -10,12 +8,28 @@ import (
 )
 
 func TestGetAnimeList(t *testing.T) {
-	user, _ := anilist.GetUser("Akyoto")
-	animeList, err := anilist.GetAnimeList(user.ID)
+	animeList, err := anilist.GetAnimeList("Akyoto")
 
 	assert.NoError(t, err)
 	assert.NotNil(t, animeList)
 
-	pretty, _ := json.MarshalIndent(animeList, "", "\t")
-	fmt.Println(string(pretty))
+	for _, list := range animeList.Lists {
+		assert.NotEmpty(t, list.Name)
+
+		for _, item := range list.Entries {
+			assert.NotZero(t, item.Anime.ID)
+			assert.NotEmpty(t, item.Anime.Title.Romaji)
+			assert.True(t, item.Progress >= 0)
+			assert.True(t, item.ScoreRaw >= 0)
+			assert.True(t, item.ScoreRaw <= 100)
+			assert.Contains(t, []string{
+				"CURRENT",
+				"PLANNING",
+				"COMPLETED",
+				"DROPPED",
+				"PAUSED",
+				"REPEATING",
+			}, item.Status)
+		}
+	}
 }

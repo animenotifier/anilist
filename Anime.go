@@ -4,28 +4,14 @@ import "strconv"
 
 // Anime ...
 type Anime struct {
-	ID             int           `json:"id"`
-	TitleRomaji    string        `json:"title_romaji"`
-	TitleEnglish   string        `json:"title_english"`
-	TitleJapanese  string        `json:"title_japanese"`
-	Type           string        `json:"type"`
-	StartDateFuzzy int           `json:"start_date_fuzzy"`
-	EndDateFuzzy   int           `json:"end_date_fuzzy"`
-	Season         interface{}   `json:"season"`
-	SeriesType     string        `json:"series_type"`
-	Synonyms       []interface{} `json:"synonyms"`
-	Genres         []string      `json:"genres"`
-	Adult          bool          `json:"adult"`
-	AverageScore   float64       `json:"average_score"`
-	Popularity     int           `json:"popularity"`
-	UpdatedAt      int           `json:"updated_at"`
-	Hashtag        interface{}   `json:"hashtag"`
-	ImageURLSml    string        `json:"image_url_sml"`
-	ImageURLMed    string        `json:"image_url_med"`
-	ImageURLLge    string        `json:"image_url_lge"`
-	ImageURLBanner interface{}   `json:"image_url_banner"`
-	TotalEpisodes  int           `json:"total_episodes"`
-	AiringStatus   string        `json:"airing_status"`
+	ID    int `json:"id"`
+	MALID int `json:"idMal"`
+	Title struct {
+		Romaji  string `json:"romaji"`
+		English string `json:"english"`
+		Native  string `json:"native"`
+	} `json:"title"`
+	EpisodeCount int `json:"episodes"`
 }
 
 // Link returns the permalink to that anime.

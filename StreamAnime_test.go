@@ -1,35 +1,21 @@
 package anilist
 
-import (
-	"testing"
+// func TestStreamAnime(t *testing.T) {
+// 	allAnime := StreamAnime()
 
-	"github.com/stretchr/testify/assert"
-)
+// 	assert.NotNil(t, allAnime)
+// 	count := 0
 
-func TestStreamAnime(t *testing.T) {
-	APIKeyID = "akyoto-nrihb"
-	APIKeySecret = "fTx1y7CwCVyQxlK54m8a8fbsEu44"
+// 	for anime := range allAnime {
+// 		assert.NotZero(t, anime.ID)
+// 		assert.NotEmpty(t, anime.TitleRomaji)
+// 		assert.NotEmpty(t, anime.Type)
+// 		assert.NotEmpty(t, anime.Link())
 
-	err := Authorize()
+// 		count++
 
-	assert.NoError(t, err)
-	assert.NotEmpty(t, AccessToken)
-
-	allAnime := StreamAnime()
-
-	assert.NotNil(t, allAnime)
-	count := 0
-
-	for anime := range allAnime {
-		assert.NotZero(t, anime.ID)
-		assert.NotEmpty(t, anime.TitleRomaji)
-		assert.NotEmpty(t, anime.Type)
-		assert.NotEmpty(t, anime.Link())
-
-		count++
-
-		if count >= 80 {
-			break
-		}
-	}
-}
+// 		if count >= 80 {
+// 			break
+// 		}
+// 	}
+// }

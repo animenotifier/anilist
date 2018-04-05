@@ -3,21 +3,12 @@ package anilist
 // AnimeList ...
 type AnimeList struct {
 	Lists []struct {
-		Name                 string           `json:"name"`
-		IsCustomList         bool             `json:"isCustomList"`
-		IsSplitCompletedList bool             `json:"isSplitCompletedList"`
-		Entries              []*AnimeListItem `json:"entries"`
+		Name    string           `json:"name"`
+		Entries []*AnimeListItem `json:"entries"`
 	} `json:"lists"`
 	User struct {
-		ID     int    `json:"id"`
-		Name   string `json:"name"`
-		Avatar struct {
-			Large string `json:"large"`
-		} `json:"avatar"`
-		MediaListOptions struct {
-			ScoreFormat string `json:"scoreFormat"`
-			RowOrder    string `json:"rowOrder"`
-		} `json:"mediaListOptions"`
+		ID   int    `json:"id"`
+		Name string `json:"name"`
 	} `json:"user"`
 }
 
@@ -37,22 +28,13 @@ func GetAnimeList(userID int) (*AnimeList, error) {
 				MediaListCollection (userId: $id, type: $listType) {
 					lists {
 						name
-						isCustomList
-						isSplitCompletedList
 						entries {
 							... mediaListEntry
 						}
 					}
 					user {
 						id
-						name 
-						avatar {
-							large
-						}
-						mediaListOptions {
-							scoreFormat
-							rowOrder
-						}
+						name
 					}
 				}
 			}
@@ -62,12 +44,10 @@ func GetAnimeList(userID int) (*AnimeList, error) {
 				score
 				scoreRaw: score (format: POINT_100)
 				progress
-				progressVolumes
 				repeat
 				private
-				priority
 				notes
-				hiddenFromStatusLists
+				status
 				startedAt {
 					year
 					month
@@ -82,9 +62,13 @@ func GetAnimeList(userID int) (*AnimeList, error) {
 				createdAt
 				media {
 					id
+					idMal
 					title {
-						userPreferred
+						romaji
+						english
+						native
 					}
+					episodes
 				}
 			}
 		`,
