@@ -1,45 +1,111 @@
 package anilist
 
-import (
-	"errors"
-	"fmt"
-	"net/http"
-
-	"github.com/parnurzeal/gorequest"
-)
-
 // AnimeList ...
 type AnimeList struct {
-	ID          int    `json:"id"`
-	DisplayName string `json:"display_name"`
-	Lists       struct {
-		Completed   []*AnimeListItem `json:"completed"`
-		Watching    []*AnimeListItem `json:"watching"`
-		PlanToWatch []*AnimeListItem `json:"plan_to_watch"`
-		Dropped     []*AnimeListItem `json:"dropped"`
-		OnHold      []*AnimeListItem `json:"on_hold"`
+	Lists []struct {
+		Name                 string           `json:"name"`
+		IsCustomList         bool             `json:"isCustomList"`
+		IsSplitCompletedList bool             `json:"isSplitCompletedList"`
+		Entries              []*AnimeListItem `json:"entries"`
 	} `json:"lists"`
-	CustomLists interface{} `json:"custom_lists"`
+	User struct {
+		ID     int    `json:"id"`
+		Name   string `json:"name"`
+		Avatar struct {
+			Large string `json:"large"`
+		} `json:"avatar"`
+		MediaListOptions struct {
+			ScoreFormat string `json:"scoreFormat"`
+			RowOrder    string `json:"rowOrder"`
+		} `json:"mediaListOptions"`
+	} `json:"user"`
 }
 
 // GetAnimeList ...
-func GetAnimeList(userName string) (*AnimeList, error) {
-	if userName == "" {
-		return nil, errors.New("Anilist username is empty")
+func GetAnimeList(userID int) (*AnimeList, error) {
+	type Variables struct {
+		ID       int    `json:"id"`
+		ListType string `json:"listType"`
 	}
 
-	request := gorequest.New().Get("https://anilist.co/api/user/" + userName + "/animelist?access_token=" + AccessToken)
-
-	animeList := &AnimeList{}
-	resp, _, errs := request.EndStruct(animeList)
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Invalid status code: %d", resp.StatusCode)
+	body := struct {
+		Query     string    `json:"query"`
+		Variables Variables `json:"variables"`
+	}{
+		Query: `
+			query ($id: Int!, $listType: MediaType) {
+				MediaListCollection (userId: $id, type: $listType) {
+					lists {
+						name
+						isCustomList
+						isSplitCompletedList
+						entries {
+							... mediaListEntry
+						}
+					}
+					user {
+						id
+						name 
+						avatar {
+							large
+						}
+						mediaListOptions {
+							scoreFormat
+							rowOrder
+						}
+					}
+				}
+			}
+			
+			fragment mediaListEntry on MediaList {
+				id
+				score
+				scoreRaw: score (format: POINT_100)
+				progress
+				progressVolumes
+				repeat
+				private
+				priority
+				notes
+				hiddenFromStatusLists
+				startedAt {
+					year
+					month
+					day
+				}
+				completedAt {
+					year
+					month
+					day
+				}
+				updatedAt
+				createdAt
+				media {
+					id
+					title {
+						userPreferred
+					}
+				}
+			}
+		`,
+		Variables: Variables{
+			ID:       userID,
+			ListType: "ANIME",
+		},
 	}
 
-	if len(errs) > 0 {
-		return nil, errs[0]
+	// Query response
+	response := new(struct {
+		Data struct {
+			MediaListCollection *AnimeList `json:"MediaListCollection"`
+		} `json:"data"`
+	})
+
+	err := Query(body, &response)
+
+	if err != nil {
+		return nil, err
 	}
 
-	return animeList, nil
+	return response.Data.MediaListCollection, nil
 }

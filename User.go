@@ -6,8 +6,8 @@ type User struct {
 	Name string `json:"name"`
 }
 
-// GetUserByName ...
-func GetUserByName(userName string) (*User, error) {
+// GetUser ...
+func GetUser(userName string) (*User, error) {
 	type Variables struct {
 		Name string `json:"name"`
 	}

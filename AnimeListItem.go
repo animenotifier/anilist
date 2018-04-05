@@ -1,27 +1,33 @@
 package anilist
 
-import "time"
-
 // AnimeListItem ...
 type AnimeListItem struct {
-	RecordID             int           `json:"record_id"`
-	SeriesID             int           `json:"series_id"`
-	ListStatus           string        `json:"list_status"`
-	ScoreRaw             int           `json:"score_raw"`
-	EpisodesWatched      int           `json:"episodes_watched"`
-	ChaptersRead         int           `json:"chapters_read"`
-	VolumesRead          int           `json:"volumes_read"`
-	Rewatched            int           `json:"rewatched"`
-	Reread               int           `json:"reread"`
-	Priority             int           `json:"priority"`
-	Private              int           `json:"private"`
-	HiddenDefault        int           `json:"hidden_default"`
-	Notes                string        `json:"notes"`
-	AdvancedRatingScores []interface{} `json:"advanced_rating_scores"`
-	CustomLists          []interface{} `json:"custom_lists"`
-	StartedOn            interface{}   `json:"started_on"`
-	FinishedOn           interface{}   `json:"finished_on"`
-	AddedTime            time.Time     `json:"added_time"`
-	UpdatedTime          time.Time     `json:"updated_time"`
-	Anime                *Anime        `json:"anime"`
+	ID                    int         `json:"id"`
+	Score                 float64     `json:"score"`
+	ScoreRaw              int         `json:"scoreRaw"`
+	Progress              int         `json:"progress"`
+	ProgressVolumes       interface{} `json:"progressVolumes"`
+	Repeat                int         `json:"repeat"`
+	Private               bool        `json:"private"`
+	Priority              int         `json:"priority"`
+	Notes                 interface{} `json:"notes"`
+	HiddenFromStatusLists bool        `json:"hiddenFromStatusLists"`
+	StartedAt             struct {
+		Year  interface{} `json:"year"`
+		Month interface{} `json:"month"`
+		Day   interface{} `json:"day"`
+	} `json:"startedAt"`
+	CompletedAt struct {
+		Year  interface{} `json:"year"`
+		Month interface{} `json:"month"`
+		Day   interface{} `json:"day"`
+	} `json:"completedAt"`
+	UpdatedAt int `json:"updatedAt"`
+	CreatedAt int `json:"createdAt"`
+	Media     struct {
+		ID    int `json:"id"`
+		Title struct {
+			UserPreferred string `json:"userPreferred"`
+		} `json:"title"`
+	} `json:"media"`
 }

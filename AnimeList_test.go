@@ -1,23 +1,21 @@
-package anilist
+package anilist_test
 
 import (
+	"encoding/json"
+	"fmt"
 	"testing"
 
+	"github.com/animenotifier/anilist"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAnimeList(t *testing.T) {
-	APIKeyID = "akyoto-nrihb"
-	APIKeySecret = "fTx1y7CwCVyQxlK54m8a8fbsEu44"
-
-	err := Authorize()
-
-	assert.NoError(t, err)
-	assert.NotEmpty(t, AccessToken)
-
-	animeList, err := GetAnimeList("Akyoto")
+func TestGetAnimeList(t *testing.T) {
+	user, _ := anilist.GetUser("Akyoto")
+	animeList, err := anilist.GetAnimeList(user.ID)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, animeList)
-	assert.NotEmpty(t, animeList.Lists.Completed)
+
+	pretty, _ := json.MarshalIndent(animeList, "", "\t")
+	fmt.Println(string(pretty))
 }
