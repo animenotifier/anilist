@@ -4,7 +4,7 @@ package anilist
 // 	"strconv"
 // 	"time"
 
-// 	"github.com/fatih/color"
+// 	"github.com/akyoto/color"
 // 	"github.com/parnurzeal/gorequest"
 // )
 
