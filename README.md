@@ -2,7 +2,7 @@
 
 [![Godoc reference][godoc-image]][godoc-url]
 [![Go report card][goreportcard-image]][goreportcard-url]
-[![Tests][travis-image]][travis-url]
+[![Tests][tests-image]][tests-url]
 [![Code coverage][codecov-image]][codecov-url]
 [![License][license-image]][license-url]
 
@@ -18,8 +18,8 @@ Anilist API client written in Go.
 [godoc-url]: https://godoc.org/github.com/animenotifier/anilist
 [goreportcard-image]: https://goreportcard.com/badge/github.com/animenotifier/anilist
 [goreportcard-url]: https://goreportcard.com/report/github.com/animenotifier/anilist
-[travis-image]: https://travis-ci.org/animenotifier/anilist.svg?branch=master
-[travis-url]: https://travis-ci.org/animenotifier/anilist
+[tests-image]: https://cloud.drone.io/api/badges/animenotifier/anilist/status.svg
+[tests-url]: https://cloud.drone.io/animenotifier/anilist
 [codecov-image]: https://codecov.io/gh/animenotifier/anilist/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/animenotifier/anilist
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
