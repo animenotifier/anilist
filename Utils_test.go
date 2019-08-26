@@ -3,8 +3,8 @@ package anilist_test
 import (
 	"testing"
 
+	"github.com/akyoto/assert"
 	"github.com/animenotifier/anilist"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAniListIDByMALID(t *testing.T) {
@@ -16,7 +16,7 @@ func TestGetAniListIDByMALID(t *testing.T) {
 
 	for malID, anilistID := range testIDs {
 		id, err := anilist.GetAniListIDByMALID(malID)
-		assert.NoError(t, err)
+		assert.Nil(t, err)
 		assert.Equal(t, anilistID, id)
 	}
 }
