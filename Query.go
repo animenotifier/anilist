@@ -8,8 +8,8 @@ import (
 )
 
 var headers = client.Headers{
-	"User-Agent":   "Anime Notifier",
 	"Content-Type": "application/json",
+	"Accept":       "application/json",
 }
 
 // Query queries the AniList GraphQL API.
